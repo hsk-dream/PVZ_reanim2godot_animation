@@ -318,29 +318,28 @@
         <!-- 使用教程部分 -->
         <section id="usage" class="content-section">
             <h2>使用教程</h2>
-            
-            <!-- 新增的教程视频链接 -->
-            <!--
-            <iframe
-                src="https://player.bilibili.com/player.html?isOutside=true&aid=114007994276885&bvid=BV1A7ATexE8Z&cid=28407693548&p=1&quality=80"
-                scrolling="no"
-                border="0"
-                frameborder="no"
-                framespacing="0"
-                allowfullscreen="true">
-            </iframe>
-            -->
 
-            <video>
-                <source src="https://github.com/HYTommm/PVZ_reanim2godot_animation/blob/main/%E6%95%99%E7%A8%8B%E8%A7%86%E9%A2%91.mp4"
-                        type="video/mp4">
-            </video>
-            
+            <!-- B站视频跳转按钮 -->
+            <div style="margin: 20px 0; text-align: center;">
+                <a href="https://www.bilibili.com/video/BV1A7ATexE8Z"
+                   class="download-btn"
+                   target="_blank"
+                   rel="noopener noreferrer"
+                   style="display: inline-flex; align-items: center; gap: 8px;">
+                    <!-- 播放图标 -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <polygon points="23 7 16 12 23 17 23 7"></polygon>
+                        <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
+                    </svg>
+                    点击观看视频教程
+                </a>
+            </div>
+
             <h3>基本命令格式</h3>
             <div class="code-block">
                 <code>r2ga reanim源文件 动画存放文件夹 素材存放文件夹 mode</code>
             </div>
-            
+
             <h3>参数说明</h3>
             <ul>
                 <li><strong>reanim源文件</strong>: 植物大战僵尸的.reanim动画文件</li>
