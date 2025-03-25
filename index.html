@@ -10,6 +10,7 @@
             margin: 0;
             padding: 0;
         }
+
         body {
             font-family: 'Arial', sans-serif;
             line-height: 1.6;
@@ -29,41 +30,48 @@
             height: 100vh;
             overflow-y: auto;
         }
+
         .nav-header {
             padding: 0 20px 20px;
             border-bottom: 1px solid #4a6b22;
             margin-bottom: 20px;
         }
-        .nav-header h2 {
-            margin: 0;
-            color: white;
-        }
+
+            .nav-header h2 {
+                margin: 0;
+                color: white;
+            }
+
         .nav-menu {
             list-style: none;
             padding: 0;
             margin: 0;
         }
-        .nav-menu li a {
-            display: block;
-            padding: 10px 20px;
-            color: #e0e0e0;
-            text-decoration: none;
-            transition: all 0.3s;
-        }
-        .nav-menu li a:hover {
-            background-color: #4a6b22;
-            color: white;
-        }
-        .nav-menu li a.active {
-            background-color: #8bc34a;
-            color: white;
-            font-weight: bold;
-        }
+
+            .nav-menu li a {
+                display: block;
+                padding: 10px 20px;
+                color: #e0e0e0;
+                text-decoration: none;
+                transition: all 0.3s;
+            }
+
+                .nav-menu li a:hover {
+                    background-color: #4a6b22;
+                    color: white;
+                }
+
+                .nav-menu li a.active {
+                    background-color: #8bc34a;
+                    color: white;
+                    font-weight: bold;
+                }
         /* 主内容区样式 */
         main {
             flex: 1;
             padding: 20px;
         }
+
         .content-section {
             display: none;
             background-color: white;
@@ -72,9 +80,11 @@
             box-shadow: 0 2px 5px rgba(0,0,0,0.1);
             margin-bottom: 20px;
         }
-        .content-section.active {
-            display: block;
-        }
+
+            .content-section.active {
+                display: block;
+            }
+
         header {
             background-color: #4a6b22;
             color: white;
@@ -83,19 +93,23 @@
             margin-bottom: 30px;
             text-align: center;
         }
+
         h1 {
             margin: 0;
             font-size: 2.5em;
         }
+
         h2 {
             color: #4a6b22;
             border-bottom: 2px solid #8bc34a;
             padding-bottom: 5px;
             margin-top: 20px;
         }
+
         h3 {
             margin: 15px 0 10px;
         }
+
         .feature-box {
             background-color: #f1f8e9;
             padding: 15px;
@@ -103,6 +117,7 @@
             margin: 20px 0;
             border-radius: 0 5px 5px 0;
         }
+
         .warning-box {
             background-color: #fff8e1;
             padding: 15px;
@@ -110,12 +125,14 @@
             margin: 20px 0;
             border-radius: 0 5px 5px 0;
         }
+
         code {
             background-color: #f0f0f0;
             padding: 2px 5px;
             border-radius: 3px;
             font-family: 'Courier New', monospace;
         }
+
         .code-block {
             background-color: #f5f5f5;
             padding: 10px;
@@ -123,6 +140,7 @@
             overflow-x: auto;
             margin: 15px 0;
         }
+
         .download-btn {
             display: inline-block;
             background-color: #8bc34a;
@@ -134,66 +152,85 @@
             margin-top: 10px;
             transition: background-color 0.3s;
         }
-        .download-btn:hover {
-            background-color: #7cb342;
-        }
+
+            .download-btn:hover {
+                background-color: #7cb342;
+            }
+
         footer {
             text-align: center;
             margin-top: 40px;
             color: #7f8c8d;
             font-size: 0.9em;
         }
+
         .mode-table {
             width: 100%;
             border-collapse: collapse;
             margin: 20px 0;
         }
-        .mode-table th, .mode-table td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-        .mode-table th {
-            background-color: #f2f2f2;
-        }
-        .mode-table tr:nth-child(even) {
-            background-color: #f9f9f9;
-        }
+
+            .mode-table th, .mode-table td {
+                border: 1px solid #ddd;
+                padding: 8px;
+                text-align: left;
+            }
+
+            .mode-table th {
+                background-color: #f2f2f2;
+            }
+
+            .mode-table tr:nth-child(even) {
+                background-color: #f9f9f9;
+            }
+
         .version-history {
             margin: 20px 0;
         }
+
         .version-item {
             margin-bottom: 15px;
             padding-bottom: 15px;
             border-bottom: 1px solid #eee;
         }
+
         .version-title {
             font-weight: bold;
             color: #4a6b22;
             margin-bottom: 5px;
         }
+
         .version-date {
             color: #7f8c8d;
             font-size: 0.9em;
             margin-bottom: 5px;
         }
+
         .contact-info {
             margin: 15px 0;
         }
+
         .contact-item {
             margin-bottom: 10px;
         }
+
         .contact-label {
             font-weight: bold;
             display: inline-block;
             width: 150px;
         }
+
         iframe {
             width: 100%;
-            
             /* 或动态高度（根据比例） */
             aspect-ratio: 16/9; /* 16:9 比例 */
         }
+
+        video {
+            max-width: 100%;
+            height: auto;
+        }
+        
         /* 响应式设计 */
         @media (max-width: 768px) {
             body {
@@ -283,7 +320,7 @@
             <h2>使用教程</h2>
             
             <!-- 新增的教程视频链接 -->
-            
+            <!--
             <iframe
                 src="https://player.bilibili.com/player.html?isOutside=true&aid=114007994276885&bvid=BV1A7ATexE8Z&cid=28407693548&p=1&quality=80"
                 scrolling="no"
@@ -292,6 +329,12 @@
                 framespacing="0"
                 allowfullscreen="true">
             </iframe>
+            -->
+
+            <video>
+                <source src="https://github.com/HYTommm/PVZ_reanim2godot_animation/blob/main/教程视频.mp4"
+                        type="video/mp4">
+            </video>
             
             <h3>基本命令格式</h3>
             <div class="code-block">
@@ -364,26 +407,26 @@
             <div class="code-block">
                 <code>
                                 # auto模式输入                 <br>
-                &emsp;&emsp;        reanim/                   <br>
-                &emsp;&emsp;        └ zombie.reanim          <br>
+                &emsp;&emsp;        reanim/                    <br>
+                &emsp;&emsp;        └ zombie.reanim           <br>
                                 # auto模式输出                 <br>
-                &emsp;&emsp;        animations/               <br>
+                &emsp;&emsp;        animations/                <br>
                 &emsp;&emsp;        ├── zombie_walk.tres    <br>
                 &emsp;&emsp;        ├── zombie_idle.tres    <br>
                 &emsp;&emsp;        └── zombie.tscn         <br>
-                                                              <br>
+                                                               <br>
                                 # tscn_by_anim模式输入         <br>
-                &emsp;&emsp;        reanim/                   <br>
-                &emsp;&emsp;        └ zombie.reanim          <br>
+                &emsp;&emsp;        reanim/                    <br>
+                &emsp;&emsp;        └ zombie.reanim           <br>
                                 # tscn_by_anim模式输出         <br>
-                &emsp;&emsp;        animations/               <br>
+                &emsp;&emsp;        animations/                <br>
                 &emsp;&emsp;        └── zombie.tscn         <br>
-                                                              <br>
+                                                               <br>
                                 # anim_tres模式输入            <br>
-                &emsp;&emsp;        reanim/                   <br>
-                &emsp;&emsp;        └ zombie_walk.reanim     <br>
+                &emsp;&emsp;        reanim/                    <br>
+                &emsp;&emsp;        └ zombie_walk.reanim      <br>
                                 # anim_tres模式输出            <br>
-                &emsp;&emsp;        animations/               <br>
+                &emsp;&emsp;        animations/                <br>
                 &emsp;&emsp;        └── zombie_walk.tres    <br>
                 </code>
             </div>
