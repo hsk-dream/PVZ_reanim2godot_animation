@@ -40,7 +40,9 @@ typedef enum dictionary_index
 	KX_INDEX,
 	KY_INDEX,
 
-	BM_INDEX,
+	A_INDEX,
+
+	BM_INDEX
 }dictionary_index;
 
 static const char* dictionary[] =
@@ -50,6 +52,8 @@ static const char* dictionary[] =
 	"t", "f", "i", "x", "y",
 
 	"sx", "sy", "kx", "ky",
+
+	"a",
 
 	"bm"
 };

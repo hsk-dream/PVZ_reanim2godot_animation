@@ -80,6 +80,7 @@ void FileWriteTracks(PVZAnimation* anim, const bool is_bm_enabled)
 	_FileWritePvzTrack(output, anim->tracks->tracks_scale, anim->current_tracks_scale_key_times);
 	_FileWritePvzTrack(output, anim->tracks->tracks_skew, anim->current_tracks_skew_key_times);
 	_FileWritePvzTrack(output, anim->tracks->tracks_texture, anim->current_tracks_texture_key_times);
+	_FileWritePvzTrack(output, anim->tracks->tracks_alpha, anim->current_tracks_alpha_key_times);
 	if (is_bm_enabled)
 		_FileWritePvzTrack(output, anim->tracks->tracks_blendmode, anim->current_tracks_blendmode_key_times);
 	fflush(output);

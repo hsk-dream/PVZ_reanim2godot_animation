@@ -2,7 +2,7 @@
 #include <stdbool.h>
 
 
-#define VERSION "3.0_stable"
+#define VERSION "3.1_dev"
 
 #define NAME_LENTH 300
 #define PATH_LENTH 500
@@ -45,6 +45,7 @@ typedef struct PVZTracks
 	Tracks* tracks_scale;
 	Tracks* tracks_skew;
 	Tracks* tracks_texture;
+	Tracks* tracks_alpha;
 	Tracks* tracks_blendmode;
 	
 }PVZTracks;
@@ -64,6 +65,7 @@ typedef struct PVZAnimation
 	int current_tracks_scale_key_times  ;
 	int current_tracks_skew_key_times   ;
 	int current_tracks_texture_key_times;
+	int current_tracks_alpha_key_times;
 	int current_tracks_blendmode_key_times;
 	bool flag_x;
 	bool flag_sx;

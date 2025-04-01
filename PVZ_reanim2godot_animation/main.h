@@ -31,6 +31,10 @@ void PreSetTrackTRot(PVZAnimation* pvz_animation);
 
 void PreSetTrackTSkew(PVZAnimation* pvz_animation);
 
+void PreSetTrackTAlpha(PVZAnimation* pvz_animation);
+
+void PreSetTrackTTexture(PVZAnimation* pvz_animation);
+
 void SetTrackT(PVZAnimation* pvz_animation, char* new_content);
 
 void SetF(PVZAnimation* pvz_animation, char* new_content);
@@ -50,3 +54,7 @@ void SetKx(PVZAnimation* pvz_animation, char* new_content);
 void SetKy(PVZAnimation* pvz_animation, char* new_content);
 
 void SetI(PVZAnimation* pvz_animation, char* new_content);
+
+void SetA(PVZAnimation* pvz_animation, char* new_content);
+
+void SetBm(PVZAnimation* pvz_animation, char* new_content);

@@ -68,6 +68,7 @@ void InitPVZTracks(PVZTracks* pvz_track)
 	if ((pvz_track->tracks_scale = (Tracks*)malloc(sizeof(Tracks))) == NULL) return;
 	if ((pvz_track->tracks_skew = (Tracks*)malloc(sizeof(Tracks))) == NULL) return;
 	if ((pvz_track->tracks_texture = (Tracks*)malloc(sizeof(Tracks))) == NULL) return;
+	if ((pvz_track->tracks_alpha = (Tracks*)malloc(sizeof(Tracks))) == NULL) return;
 	if ((pvz_track->tracks_blendmode = (Tracks*)malloc(sizeof(Tracks))) == NULL) return;
 	InitTracks(pvz_track->tracks_vis);
 	pvz_track->tracks_vis->key.update = UPDATE_MODE_CONTINUOUS;
@@ -76,6 +77,7 @@ void InitPVZTracks(PVZTracks* pvz_track)
 	InitTracks(pvz_track->tracks_scale);
 	InitTracks(pvz_track->tracks_skew);
 	InitTracks(pvz_track->tracks_texture);
+	InitTracks(pvz_track->tracks_alpha);
 	InitTracks(pvz_track->tracks_blendmode);
 }
 
@@ -100,6 +102,7 @@ void InitPVZAnimation(PVZAnimation* pvz_animation, const char* name)
 	pvz_animation->current_tracks_scale_key_times = 0;
 	pvz_animation->current_tracks_skew_key_times = 0;
 	pvz_animation->current_tracks_texture_key_times = 0;
+	pvz_animation->current_tracks_alpha_key_times = 0;
 	pvz_animation->current_tracks_blendmode_key_times = 0;
 
 	pvz_animation->flag_x = false;
@@ -119,8 +122,6 @@ void InitPVZAnimation(PVZAnimation* pvz_animation, const char* name)
 	sprintf_s(pvz_animation->output_file_extension, MAX_ANIM_NUM, "tscn");
 
 	pvz_animation->filename_fuck_times = 0;
-
-	
 
 }
 
@@ -171,6 +172,8 @@ void FreePVZAnimation(PVZAnimation* pvz_animation, bool is_remove_output_files)
 	free(pvz_animation->tracks->tracks_scale);
 	free(pvz_animation->tracks->tracks_skew);
 	free(pvz_animation->tracks->tracks_texture);
+	free(pvz_animation->tracks->tracks_alpha);
+	free(pvz_animation->tracks->tracks_blendmode);
 	free(pvz_animation->tracks);
 	
 

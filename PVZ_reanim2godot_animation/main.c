@@ -83,22 +83,24 @@ void SetAnimKeyTimes(PVZAnimation* pvz_animation, int num)
 	pvz_animation->current_tracks_scale_key_times = num;
 	pvz_animation->current_tracks_skew_key_times = num;
 	pvz_animation->current_tracks_texture_key_times = num;
+	pvz_animation->current_tracks_alpha_key_times = num;
 	pvz_animation->current_tracks_blendmode_key_times = num;
 
 }
 void SetTrack(PVZAnimation* pvz_animation, char* new_content)
 {
 	pvz_animation->current_frame_time_num = 0;
-	pvz_animation->tracks->tracks_vis->num = pvz_animation->current_tracks_num *       (6+(is_blend_mode_enabled ? 1 : 0)) + 0;
-	pvz_animation->tracks->tracks_pos->num = pvz_animation->current_tracks_num *       (6+(is_blend_mode_enabled ? 1 : 0)) + 1;
-	pvz_animation->tracks->tracks_rot->num = pvz_animation->current_tracks_num *       (6+(is_blend_mode_enabled ? 1 : 0)) + 2;
-	pvz_animation->tracks->tracks_scale->num = pvz_animation->current_tracks_num *     (6+(is_blend_mode_enabled ? 1 : 0)) + 3;
-	pvz_animation->tracks->tracks_skew->num = pvz_animation->current_tracks_num *      (6+(is_blend_mode_enabled ? 1 : 0)) + 4;
-	pvz_animation->tracks->tracks_texture->num = pvz_animation->current_tracks_num *   (6+(is_blend_mode_enabled ? 1 : 0)) + 5;
+	pvz_animation->tracks->tracks_vis->num = pvz_animation->current_tracks_num *       (7+(is_blend_mode_enabled ? 1 : 0)) + 0;
+	pvz_animation->tracks->tracks_pos->num = pvz_animation->current_tracks_num *       (7+(is_blend_mode_enabled ? 1 : 0)) + 1;
+	pvz_animation->tracks->tracks_rot->num = pvz_animation->current_tracks_num *       (7+(is_blend_mode_enabled ? 1 : 0)) + 2;
+	pvz_animation->tracks->tracks_scale->num = pvz_animation->current_tracks_num *     (7+(is_blend_mode_enabled ? 1 : 0)) + 3;
+	pvz_animation->tracks->tracks_skew->num = pvz_animation->current_tracks_num *      (7+(is_blend_mode_enabled ? 1 : 0)) + 4;
+	pvz_animation->tracks->tracks_texture->num = pvz_animation->current_tracks_num *   (7+(is_blend_mode_enabled ? 1 : 0)) + 5;
+	pvz_animation->tracks->tracks_alpha->num = pvz_animation->current_tracks_num *     (7+(is_blend_mode_enabled ? 1 : 0)) + 6;
 
 	//blendmode->num
 	if (is_blend_mode_enabled)
-		pvz_animation->tracks->tracks_blendmode->num = pvz_animation->current_tracks_num * (6 + 1) + 6;
+		pvz_animation->tracks->tracks_blendmode->num = pvz_animation->current_tracks_num * (7 + 1) + 7;
 	SetAnimKeyTimes(pvz_animation, 0);
 
 
@@ -140,6 +142,7 @@ void SetTrackName(PVZAnimation* pvz_animation[], int anim_num, char* new_content
 	sprintf_s(pvz_animation[anim_num]->tracks->tracks_scale->path, PATH_LENTH, "%s:scale",  pvz_animation[anim_num]->tracks->name);
 	sprintf_s(pvz_animation[anim_num]->tracks->tracks_skew->path, PATH_LENTH, "%s:skew",    pvz_animation[anim_num]->tracks->name);
 	sprintf_s(pvz_animation[anim_num]->tracks->tracks_texture->path, PATH_LENTH, "%s:texture", pvz_animation[anim_num]->tracks->name);
+	/*alpha*/sprintf_s(pvz_animation[anim_num]->tracks->tracks_alpha->path, PATH_LENTH, "%s:self_modulate",   pvz_animation[anim_num]->tracks->name);
 	sprintf_s(pvz_animation[anim_num]->tracks->tracks_blendmode->path, PATH_LENTH, "%s:material", pvz_animation[anim_num]->tracks->name);
 	sprintf_s(pvz_animation[anim_num]->track_name[pvz_animation[anim_num]->current_tracks_num], NAME_LENTH, "%s", pvz_animation[anim_num]->tracks->name);
 }
@@ -224,6 +227,21 @@ void PreSetTrackTTexture(PVZAnimation* pvz_animation)
 		pvz_animation->current_tracks_texture_key_times++;
 	}
 }
+
+void PreSetTrackTAlpha(PVZAnimation* pvz_animation)
+{
+	if (pvz_animation->current_tracks_alpha_key_times)
+	{
+		sprintf_s(pvz_animation->tracks->tracks_alpha->key.values[pvz_animation->current_tracks_alpha_key_times], NAME_LENTH, pvz_animation->tracks->tracks_alpha->key.values[pvz_animation->current_tracks_alpha_key_times - 1]);
+	}
+	else if (strcmp(pvz_animation->output_file_extension, "tscn") == 0)
+	{
+		sprintf_s(pvz_animation->tracks->tracks_alpha->key.values[pvz_animation->current_tracks_alpha_key_times], NAME_LENTH, "Color(1, 1, 1, %2.5Lf)", 1.0);
+	}
+	pvz_animation->current_tracks_alpha_key_times++;
+	pvz_animation->tracks->tracks_alpha->key.times[pvz_animation->current_tracks_alpha_key_times - 1] = (float)(1.0 / FPS * pvz_animation->current_frame_time_num);
+}
+
 void SetTrackT(PVZAnimation* pvz_animation, char* new_content)
 {
 
@@ -238,6 +256,8 @@ void SetTrackT(PVZAnimation* pvz_animation, char* new_content)
 	PreSetTrackTSkew(pvz_animation);
 
 	PreSetTrackTTexture(pvz_animation);
+
+	PreSetTrackTAlpha(pvz_animation);
 
 	text(new_content, &pvz_animation);
 	//text(new_content, output, pvz_tracks);
@@ -442,6 +462,21 @@ void SetI(PVZAnimation* pvz_animation, char* new_content)
 	pvz_animation->current_tracks_texture_key_times++;
 }
 
+void SetA(PVZAnimation* pvz_animation, char* new_content)
+{
+	if (pvz_animation->current_tracks_alpha_key_times)
+	{
+		sprintf_s(pvz_animation->tracks->tracks_alpha->key.values[pvz_animation->current_tracks_alpha_key_times - 1], NAME_LENTH, "Color(1, 1, 1, %2.5Lf)", atof(new_content));
+	}
+	else
+	{
+		printf("tracks_alpha_key_times = 0\n");
+		sprintf_s(pvz_animation->tracks->tracks_alpha->key.values[pvz_animation->current_tracks_alpha_key_times], NAME_LENTH, "Color(1, 1, 1, %2.5Lf)", atof(new_content));
+		pvz_animation->current_tracks_alpha_key_times++;
+	}
+	pvz_animation->tracks->tracks_alpha->key.times[pvz_animation->current_tracks_alpha_key_times - 1] = (float)(1.0 / FPS * pvz_animation->current_frame_time_num);
+}
+
 void SetBm(PVZAnimation* pvz_animation, char* new_content)
 {
 	if (strcmp(new_content, "normal") == 0 ||
@@ -479,9 +514,15 @@ void SetInitValue(PVZAnimation* pvz_animation[], int anim_index)
 		return;
 	int zero_fuck_index = -1;
 	sscanf_s(pvz_animation[0]->tracks->tracks_texture->key.values[zero_texture_index], "ExtResource(\"%d_fuck\")", &zero_fuck_index);
-	if (zero_fuck_index == -1)
-		return;
-	SetI(pvz_animation[anim_index], pvz_animation[0]->filename_fuck[zero_fuck_index]);
+	if (zero_fuck_index != -1)
+		SetI(pvz_animation[anim_index], pvz_animation[0]->filename_fuck[zero_fuck_index]);
+		
+
+	/*alpha*/
+	sprintf_s(pvz_animation[anim_index]->tracks->tracks_alpha->key.values[0], NAME_LENTH, "%s",
+		pvz_animation[0]->tracks->tracks_alpha->key.values[(pvz_animation[0]->current_tracks_alpha_key_times) ? (pvz_animation[0]->current_tracks_alpha_key_times - 1) : 0]);
+
+	
 }
 
 
@@ -755,6 +796,14 @@ void text(char* old_content, PVZAnimation* pvz_animations[])
 			SetI(pvz_animations[0], new_content);
 			continue;
 		}
+
+		/*a*/
+		if (!strcmp(tap_name, dictionary[A_INDEX]/*a*/))
+		{
+			SetA(pvz_animations[0], new_content);
+			continue;
+		}
+
 		/*bm*/
 		if (!strcmp(tap_name, dictionary[BM_INDEX]/*bm*/))
 		{
