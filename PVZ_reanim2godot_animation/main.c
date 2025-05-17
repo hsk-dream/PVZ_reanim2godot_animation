@@ -260,7 +260,7 @@ void SetTrackT(PVZAnimation* pvz_animation, char* new_content)
 	PreSetTrackTAlpha(pvz_animation);
 
 	text(new_content, &pvz_animation);
-	//text(new_content, output, pvz_tracks);
+
 	pvz_animation->flag_x = false;
 	pvz_animation->flag_sx = false;
 	pvz_animation->flag_kx = false;
