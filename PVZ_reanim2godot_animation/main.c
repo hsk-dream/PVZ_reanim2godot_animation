@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <ctype.h>
+#include <math.h>
 //#include <windows.h>
 
 //#include "convert.h"
@@ -12,7 +13,6 @@
 
 
 //转换器
-
 
 
 int current_frame_time_num = 0;
@@ -170,7 +170,7 @@ void PreSetTrackTPos(PVZAnimation* pvz_animation)
 	}
 	else if (strcmp(pvz_animation->output_file_extension, "tscn") == 0)
 	{
-		sprintf_s(pvz_animation->tracks->tracks_pos->key.values[pvz_animation->current_tracks_pos_key_times], NAME_LENTH, "Vector2(%6.2f, %6.2f)", 0.0, 0.0);
+		sprintf_s(pvz_animation->tracks->tracks_pos->key.values[pvz_animation->current_tracks_pos_key_times], NAME_LENTH, "Vector2(%7.2f, %7.2f)", 0.0, 0.0);
 	}
 	pvz_animation->current_tracks_pos_key_times++;
 	pvz_animation->tracks->tracks_pos->key.times[pvz_animation->current_tracks_pos_key_times - 1] = (float)(1.0 / FPS * pvz_animation->current_frame_time_num);
@@ -260,7 +260,7 @@ void SetTrackT(PVZAnimation* pvz_animation, char* new_content)
 	PreSetTrackTAlpha(pvz_animation);
 
 	text(new_content, &pvz_animation);
-	//text(new_content, output, pvz_tracks);
+
 	pvz_animation->flag_x = false;
 	pvz_animation->flag_sx = false;
 	pvz_animation->flag_kx = false;
@@ -303,7 +303,7 @@ void SetX(PVZAnimation* pvz_animation, char* new_content)
 		arrayprintf_s(pvz_animation->tracks->tracks_pos->key.values[pvz_animation->current_tracks_pos_key_times - 1], NAME_LENTH, temp);
 		pvz_animation->flag_x = true;
 	}
-	sprintf_s(temp, NAME_LENTH, "Vector2(%6.2Lf, ", atof(new_content));
+	sprintf_s(temp, NAME_LENTH, "Vector2(%7.2Lf, ", atof(new_content));
 	arrayprintf_s(pvz_animation->tracks->tracks_pos->key.values[pvz_animation->current_tracks_pos_key_times - 1], NAME_LENTH, temp);
 	///*array*/sprintf_s(pvz_animation->tracks->tracks_pos->key.values[pvz_animation->current_tracks_pos_key_times - 1], NAME_LENTH, "%s", temp);
 	pvz_animation->tracks->tracks_pos->key.times[pvz_animation->current_tracks_pos_key_times - 1] = (float)(1.0 / FPS * pvz_animation->current_frame_time_num);
@@ -317,7 +317,7 @@ void SetY(PVZAnimation* pvz_animation, char* new_content)
 		pvz_animation->current_tracks_pos_key_times++;
 	}
 
-	sprintf_s(pvz_animation->tracks->tracks_pos->key.values[pvz_animation->current_tracks_pos_key_times - 1] + 14, NAME_LENTH, ", %6.2Lf)", atof(new_content));
+	sprintf_s(pvz_animation->tracks->tracks_pos->key.values[pvz_animation->current_tracks_pos_key_times - 1] + 15, NAME_LENTH, ", %7.2Lf)", atof(new_content));
 	pvz_animation->tracks->tracks_pos->key.times[pvz_animation->current_tracks_pos_key_times - 1] = (float)(1.0 / FPS * pvz_animation->current_frame_time_num);
 }
 void SetSx(PVZAnimation* pvz_animation, char* new_content)
@@ -358,9 +358,16 @@ void SetKx(PVZAnimation* pvz_animation, char* new_content)
 	{
 		pvz_animation->current_tracks_rot_key_times++;
 	}
-	double temp = atof(new_content) / 180 * PI;
-	//if (flag_ky)
+	double temp = fmod(atof(new_content), 360.0);
+
+	
+	if (abs(atof(new_content)) > 360 && abs(fmod(atof(new_content), 360.0) >= 180))
+		printf("kx > 360\n处理后 kx = %lf\n", fmod(atof(new_content), 360.0));
+	temp = fmod(atof(new_content), 360.0) / 180 * PI;
+	
 	sprintf_s(pvz_animation->tracks->tracks_rot->key.values[pvz_animation->current_tracks_rot_key_times - 1], NAME_LENTH, "%10.6Lf", temp);
+
+	
 	pvz_animation->tracks->tracks_rot->key.times[pvz_animation->current_tracks_rot_key_times - 1] = (float)(1.0 / FPS * pvz_animation->current_frame_time_num);
 	pvz_animation->flag_kx = true;
 	pvz_animation->flag_kx2 = true;
@@ -368,7 +375,7 @@ void SetKx(PVZAnimation* pvz_animation, char* new_content)
 }
 void SetKy(PVZAnimation* pvz_animation, char* new_content)
 {
-	double temp = atof(new_content) / 180 * PI
+	double temp = fmod(atof(new_content), 360.0) / 180 * PI
 		- atof(pvz_animation->tracks->tracks_rot->key.values[pvz_animation->current_tracks_rot_key_times - 1]);
 	if (pvz_animation->flag_kx)
 	{
@@ -403,7 +410,8 @@ void SetKy(PVZAnimation* pvz_animation, char* new_content)
 			//temp = 0;
 		}
 	}
-	sprintf_s(pvz_animation->tracks->tracks_skew->key.values[pvz_animation->current_tracks_skew_key_times - 1], NAME_LENTH, "%10.7Lf", temp);
+	
+	sprintf_s(pvz_animation->tracks->tracks_skew->key.values[pvz_animation->current_tracks_skew_key_times - 1], NAME_LENTH, "%10.6Lf", temp);
 	pvz_animation->tracks->tracks_skew->key.times[pvz_animation->current_tracks_skew_key_times - 1] = (float)(1.0 / FPS * pvz_animation->current_frame_time_num);
 	pvz_animation->flag_ky2 = true;
 	pvz_animation->flag_ky = true;
@@ -704,14 +712,18 @@ void text(char* old_content, PVZAnimation* pvz_animations[])
 			text(new_content, pvz_animations);
 			for (anim_index = 0; anim_index <= anim_nums; anim_index++)
 			{
+				// 如果当前帧时间大于结束帧时间，则跳过
 				if (pvz_animations[anim_index]->current_tracks_texture_key_times != 0)
 				{
+					// 复制最后一个值到第一个值，防止出现第一个值为空的情况
 					sprintf_s(pvz_animations[anim_index]->tracks->tracks_texture->key.values[pvz_animations[anim_index]->current_tracks_texture_key_times], NAME_LENTH, "%s", pvz_animations[anim_index]->tracks->tracks_texture->key.values[pvz_animations[anim_index]->current_tracks_texture_key_times - 1]);
 					pvz_animations[anim_index]->tracks->tracks_texture->key.times[pvz_animations[anim_index]->current_tracks_texture_key_times] = (float)(1.0 / FPS * (pvz_animations[anim_index]->current_frame_time_num - 1));
 					pvz_animations[anim_index]->current_tracks_texture_key_times++;
 				}
+				// 如果当前帧时间大于结束帧时间，则跳过
 				if (pvz_animations[anim_index]->current_tracks_vis_key_times != 0)
 				{
+					// 复制最后一个值到第一个值，防止出现第一个值为空的情况
 					sprintf_s(pvz_animations[anim_index]->tracks->tracks_vis->key.values[pvz_animations[anim_index]->current_tracks_vis_key_times], NAME_LENTH, "%s", pvz_animations[anim_index]->tracks->tracks_vis->key.values[pvz_animations[anim_index]->current_tracks_vis_key_times - 1]);
 					pvz_animations[anim_index]->tracks->tracks_vis->key.times[pvz_animations[anim_index]->current_tracks_vis_key_times] = (float)(1.0 / FPS * (pvz_animations[anim_index]->current_frame_time_num - 1));
 					pvz_animations[anim_index]->current_tracks_vis_key_times++;
@@ -734,9 +746,11 @@ void text(char* old_content, PVZAnimation* pvz_animations[])
 		{
 			for (anim_index = 0; anim_index <= anim_nums; anim_index++)
 			{
+				// 如果当前帧时间在开始帧时间和结束帧时间之外，则跳过
 				if (pvz_animations[anim_index]->start_frame_time > current_frame_time_num ||
 					pvz_animations[anim_index]->end_frame_time < current_frame_time_num)
 					continue;
+				// 如果当前帧时间为0，则设置初始值
 				if (pvz_animations[anim_index]->current_frame_time_num == 0/* && pvz_animations[anim_index]->start_frame_time != 0*/)
 				{
 					// 函数：设置初始值
